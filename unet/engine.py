@@ -9,10 +9,10 @@ class engine():
     ce_masks = ce_masks.to(config.DEVICE)
     _masks = model(ims)
     optimizer.zero_grad()
-    loss, acc = criterion(_masks, ce_masks)
+    loss= criterion(_masks.squeeze(1), ce_masks)
     loss.backward()
     optimizer.step()
-    return loss.item(), acc.item()
+    return loss.item()
 
   @torch.no_grad()
   def validate_batch(model, data, criterion):
@@ -23,6 +23,6 @@ class engine():
         masks = masks.to(config.DEVICE)
         _masks = model(ims)
 
-        loss, acc = criterion(_masks, masks)
+        loss= criterion(_masks.squeeze(1), masks)
 
-        return loss.item(), acc.item()
+        return loss.item()

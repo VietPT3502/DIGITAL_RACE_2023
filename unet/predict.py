@@ -1,5 +1,5 @@
 from .engine import engine
-from .loss import UnetLoss
+from .loss import SegmentationLoss
 from .config import config
 from tqdm import tqdm
 from .model import make_model
@@ -39,7 +39,6 @@ def predict(model, image):
 
     transform = A.Compose([
 
-        A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Add normalization
 
         ToTensorV2(),
         # You can add more Albumentations transformations here
@@ -60,7 +59,7 @@ def predict(model, image):
 # model, criterion, optimizer, scheduler = make_model()
 # model.load_state_dict(torch.load('best_loss.pth'))
 # model.eval()  # Set the model to evaluation mode
-# image = cv2.imread("/home/vietpt/vietpt/vietpt/race/unet/data/images_train/data_4490.jpg")
+# image = cv2.imread("/home/vietpt/vietpt/code/race/unet/data/test_image/new_00208.jpg")
 # mask =predict(model, image)
 # cv2.imshow("mask",mask)
 # cv2.waitKey(0)

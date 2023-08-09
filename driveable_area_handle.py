@@ -74,7 +74,7 @@ def calculate_steering_angle(img1,middle_pos, state):
         row = Config.ROW_WHEN_KEEP_LANE
     distance_x = middle_pos - Config.MIDDLE_IMAGE_X
     distance_y = h - row
-    if Config.VISUALIZE_SEGMENTATION:
+    if Config.VISUALIZE_DRIVEABLE == True:
         img1 = cv2.circle(img1, (int(middle_pos), int(row)), 7, (255, 255, 0), -1)
         cv2.imshow("driveable area", img1)
         cv2.waitKey(1)

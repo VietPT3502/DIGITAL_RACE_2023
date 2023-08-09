@@ -26,7 +26,7 @@ from config import Config
 # print('load model done')
 
 # Initalize traffic sign classifier
-checkpoint = "/home/vietpt/vietpt/code/race/DIGITAL_RACE_2023/weights/best_yolov5s_224x224_50ep.pt"
+checkpoint = "weights/best_yolov5s_640x640_46ep_7cls.pt"
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 dnn = False
 data = "/home/vietpt/vietpt/code/race/DIGITAL_RACE_2023/trafficsign.yaml"
@@ -42,7 +42,7 @@ detection_model = DetectMultiBackend(
     )
 
 segment_model, criterion, optimizer, scheduler = make_model()
-segment_model.load_state_dict(torch.load('/home/vietpt/vietpt/code/race/DIGITAL_RACE_2023/unet/best_loss3.pth'))
+segment_model.load_state_dict(torch.load('/home/vietpt/vietpt/code/race/DIGITAL_RACE_2023/unet/best_loss.pth'))
 segment_model.eval()  # Set the model to evaluation mode
 
 
@@ -106,7 +106,7 @@ def process_segment_loop(g_image2_queue, g_daseg_queue):
             # Prepare visualization image
             # Detect traffic signs
             da_seg_mask = predict(model=segment_model, image=image)
-            if Config.VISUALIZE_SEGMENTATION:
+            if Config.VISUALIZE_SEGMENTATION == True:
                 cv2.imshow("mask", da_seg_mask)
                 cv2.waitKey(1)
             if not g_daseg_queue.full():
@@ -136,15 +136,9 @@ async def process_image(websocket, path):
             sign_info = g_sign_queue.get()
 
             if sign_info is not None:
-                sign_state = get_state(sign_info)
+                sign_state, time_action = get_state(sign_info)
 
-                if sign_state == -1 or sign_state == 1:
-                    # Store the detected sign state and its expiry time in the dictionary
-                    sign_state_dict[sign_state] = time.time() + Config.TURN_TIME # Set the expiry time to 1 seconds
-                elif sign_state == 2:
-                    sign_state_dict[sign_state] = time.time() + Config.STOP_TIME
-                else:
-                    sign_state_dict[sign_state] = time.time()  # Set the expiry time to 1 seconds
+                sign_state_dict[sign_state] = time.time() + time_action # Set the expiry time to 1 seconds
 
         # Check if any detected sign's state has expired and remove it from the dictionary
         # current_time = time.time()
@@ -221,7 +215,7 @@ async def process_image(websocket, path):
         # Send back throttle and steering angle
         message = json.dumps(
             {"throttle": throttle, "steering": steering_angle, })
-        # print(message)
+        print(message)
         await websocket.send(message)
 
 

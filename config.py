@@ -14,41 +14,42 @@ class Config:
 
     # When keep lane
     CURVE_THRESHOLD = 0.1
-    THROTTLE_NO_CURVE = 0.45
+    THROTTLE_NO_CURVE = 0.35
     THROTTLE_CURVE = 0.1
     ROW_WHEN_KEEP_LANE = IMAGE_H / 3 * 2
 
 
     # When turn based on traffic sign
-    TURN_TIME = 1.0
-    THROTTLE_TURN = 0.25
+    TURN_TIME = 2.5
+    THROTTLE_TURN = 0.3
     STEERING_TURN_COEF = 2.
-    ROW_WHEN_TURN = IMAGE_H / 4 * 3
+    ROW_WHEN_TURN = IMAGE_H / 4 * 3 + 30
 
     # When Stop
-    STOP_TIME = 4
+    STOP_TIME = 3
     THROTTLE_STOP = 0
 
     # Traffic sign handle
     X_MASK_LEFT_TURN = int(IMAGE_W / 3 * 2) - 30
     X_MASK_RIGHT_TURN = int(IMAGE_W / 3) + 30
     Y_MASK_THRESHOLD = int(IMAGE_H / 5 * 2 - 80)
-    X_MASK_LEFT_KEEP_LANE = int(IMAGE_W / 5)
-    X_MASK_RIGHT_KEEP_LANE = int(IMAGE_W / 5 * 4)
+    X_MASK_LEFT_KEEP_LANE = int(IMAGE_W / 5 ) + 30
+    X_MASK_RIGHT_KEEP_LANE = int(IMAGE_W / 5 * 4) - 30
+    STOP_SIGN_AREA_THRESHOLD = 1000
 
     #Segmentation
     VISUALIZE_SEGMENTATION = False
-
+    VISUALIZE_DRIVEABLE = True
     # Object detection
-    IOU_THRESHOLD = 0.5
+    IOU_THRESHOLD = 0.6
     CONF_THRESHOLD = 0.5
-    VISUALIZE_DETECTION = False
+    VISUALIZE_DETECTION = True
 
     # Obstacle Avoidance
-    CAR_AREA_THRESHOLD = 5000
-    THROTTLE_OBSTACLE = 0.35
+    CAR_AREA_THRESHOLD = 3000
+    THROTTLE_OBSTACLE = 0.3
     STEERING_OBSTACLE_COEF = 0.6
-    AVOIDANCE_TIME = 2.5
+    AVOIDANCE_TIME = 0.5
     MIDPOINT_OFFSET = 40
 
 
