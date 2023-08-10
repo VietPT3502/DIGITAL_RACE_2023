@@ -1,0 +1,15 @@
+# VIA Traffic sign dataset 2021a - https://via.makerviet.org/
+# Train command: python train.py --img 224 --batch 16 --epochs 30 --data via-trafficsign/via-trafficsign.yaml --weights yolov5s.pt --hyp via-trafficsign/hyp.yaml
+
+# download command/URL (optional)
+#download: https://github.com/makerhanoi/via-datasets/releases/download/v1.0/via-trafficsign-20210321.zip
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train:  via-trafficsign/images/train # 10507 images
+val:  via-trafficsign/images/val # 588 images
+
+# number of classes
+nc: 7
+
+# class names
+names: [ 'stop', 'left', 'right', 'straight', 'no_left', 'no_right', car ]
